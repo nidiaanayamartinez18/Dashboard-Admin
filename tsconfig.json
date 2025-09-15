@@ -2,15 +2,15 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "skipLibCheck": true,             // <- evita ruidos en .d.ts de terceros
+    "baseUrl": ".",                   // <- recomendado si usas "paths"
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
+    "app",                            // <- carpeta de tu app
+    "types",                          // <- para que tome types/victory-native.d.ts
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
   ]
