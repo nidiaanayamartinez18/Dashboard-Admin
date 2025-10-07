@@ -73,7 +73,7 @@ export default function Sidebar({ onLogout, user }: Props) {
         <Text style={styles.label}>Corte diario</Text>
       </Pressable>
 
-      {/* CORTE SEMANAL */}
+      {/* CORTE SEMANAL 
       <Pressable
         onPress={() => router.push("/admin-dashboard/inventario-semanal")}
         style={[
@@ -85,7 +85,7 @@ export default function Sidebar({ onLogout, user }: Props) {
         <Text style={styles.label}>Corte semanal</Text>
       </Pressable>
 
-
+      */}
       {/* REPORTE LIMPIEZA */}
       <Pressable
         onPress={() => router.push("/admin-dashboard/reporte-limpieza")}
@@ -122,6 +122,18 @@ export default function Sidebar({ onLogout, user }: Props) {
         <MaterialIcons name="local-offer" size={24} color="#1F4172" />
         <Text style={styles.label}>Promociones</Text>
       </Pressable>      
+
+      {/* NOTICIAS */}
+      <Pressable
+        onPress={() => router.push("/admin-dashboard/noticias")}
+        style={[
+          styles.item,
+          isActivePath(pathname, "/admin-dashboard/noticias") && styles.active,
+        ]}
+      >
+        <MaterialIcons name="article" size={24} color="#1F4172" />
+        <Text style={styles.label}>Noticias</Text>
+      </Pressable>  
 
       <View style={{ flex: 1 }} />
 

@@ -31,7 +31,7 @@ const STATUS_LIST: { key: StatusKey; label: string; color: string }[] = [
   { key: "adjustment",    label: "Cuartos con ajuste",         color: "#34d399" },
   { key: "clean",         label: "Cuartos limpios",            color: "#2563eb" },
   { key: "blocked",       label: "Cuartos bloqueados",         color: "#e879f9" },
-  { key: "sold",          label: "Habitaciones vendidas",      color: "#fde047" },
+  { key: "sold",          label: "Habitaciones reservadas",      color: "#fde047" },
   { key: "lateCheckout",  label: "Habitaciones salida tarde",  color: "#a78bfa" },
 ];
 
@@ -371,20 +371,20 @@ export default function ReporteHabitaciones() {
 
         <View style={styles.headerRight}>
           <Pressable onPress={goThisWeek} style={[styles.btn, { marginRight: 8 }]}>
-            <MaterialIcons name="event" size={16} color="#472e07ff" />
+            <MaterialIcons name="event" size={16} color="#130747ff" />
             <Text style={styles.btnText}>Semana actual</Text>
           </Pressable>
           <Pressable onPress={goPrevWeek} style={[styles.btn, { marginRight: 8 }]}>
-            <Feather name="chevron-left" size={16} color="#472e07ff" />
+            <Feather name="chevron-left" size={16} color="#130747ff" />
             <Text style={styles.btnText}>Anterior</Text>
           </Pressable>
           <Pressable onPress={goNextWeek} style={[styles.btn, { marginRight: 8 }]}>
             <Text style={styles.btnText}>Siguiente</Text>
-            <Feather name="chevron-right" size={16} color="#472e07ff" />
+            <Feather name="chevron-right" size={16} color="#130747ff" />
           </Pressable>
 
         <Pressable onPress={() => setShowCalendar(true)} style={styles.btn}>
-            <MaterialIcons name="date-range" size={16} color="#472e07ff" />
+            <MaterialIcons name="date-range" size={16} color="#130747ff" />
             <Text style={styles.btnText}>Elegir semana</Text>
           </Pressable>
         </View>
@@ -414,18 +414,18 @@ export default function ReporteHabitaciones() {
           }}
           style={[styles.smallBtn, { marginRight: 8 }]}
         >
-          <MaterialIcons name="bolt" size={14} color="#472e07ff" />
+          <MaterialIcons name="bolt" size={14} color="#130747ff" />
           <Text style={styles.smallBtnText}>Actualizar</Text>
         </Pressable>
 
         <Pressable onPress={() => setGrid(buildEmptyGrid(daysLen, startDate))} style={[styles.smallBtn, { marginRight: 8 }]}>
-          <MaterialIcons name="refresh" size={14} color="#472e07ff" />
+          <MaterialIcons name="refresh" size={14} color="#130747ff" />
           <Text style={styles.smallBtnText}>Limpiar</Text>
         </Pressable>
 
         {/* Botón de tipo */}
         <Pressable onPress={() => setShowTypePicker(true)} style={styles.smallBtn}>
-          <MaterialIcons name="king-bed" size={14} color="#472e07ff" />
+          <MaterialIcons name="king-bed" size={14} color="#130747ff" />
           <Text style={styles.smallBtnText}>Tipo: {activeType}</Text>
         </Pressable>
       </View>
@@ -591,14 +591,14 @@ const styles = StyleSheet.create({
   btn: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F9F5E7",
-    borderColor: "#D7C0AE",
+    backgroundColor: "#e6efff",
+    borderColor: "#c7ddff",
     borderWidth: 1,
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 999,
   },
-  btnText: { color: "#472e07ff", fontWeight: "800", marginHorizontal: 2 },
+  btnText: { color: "#0b3a8a", fontWeight: "800", marginHorizontal: 2 },
 
   filtersRow: { flexDirection: "row", alignItems: "center", marginTop: 10, marginBottom: 10 },
   searchWrap: {
@@ -610,10 +610,10 @@ const styles = StyleSheet.create({
 
   smallBtn: {
     flexDirection: "row", alignItems: "center",
-    backgroundColor: "#F9F5E7", borderColor: "#D7C0AE", borderWidth: 1,
+    backgroundColor: "#e6efff", borderColor: "#c7ddff", borderWidth: 1,
     paddingHorizontal: 10, paddingVertical: 6, borderRadius: 999,
   },
-  smallBtnText: { color: "#472e07ff", fontWeight: "700", marginLeft: 6 },
+  smallBtnText: { color: "#0b3a8a", fontWeight: "800", marginLeft: 6 },
 
   dayHead: { alignItems: "center", justifyContent: "center", borderTopWidth: 1, borderTopColor: "#e5e7eb", borderBottomWidth: 1, borderBottomColor: "#e5e7eb" },
   dayDow: { fontSize: 10, color: "#6b7280" },

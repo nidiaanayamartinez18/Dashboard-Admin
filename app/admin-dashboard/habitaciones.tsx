@@ -11,8 +11,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-// ya tienes algo como: import { useRoomsStore } from "@/stores/roomsStore";
-import type { Room as StoreRoom } from "@/stores/roomsStore";
 
 const TYPE_ACTIVE_BLUE = "#2563eb"; // azul de realce unificado
 
@@ -24,49 +22,6 @@ import {
   StatusKey,
   useRoomsStore,
 } from "@/stores/roomsStore";
-
-// Demo: fuente de números por tipo (usa la tuya si ya la tienes)
-const ROOMS_SOURCE: Record<RoomType, string[]> = {
-  Sencilla: [
-    "106","108","110","112","116","118","120","122",
-    "206","208","210","212","216","218","220","222",
-    "306","308","310","312","316","318","320","322",
-  ],
-  Doble: [
-    "115","117","119","121","123","124",
-    "215","217","219","221","223","224",
-    "315","317","319","321","323","324",
-  ],
-  Triple: [
-    "105","107","109","111","113","114",
-    "205","207","209","211","213","214",
-    "305","307","309","311","313","314",
-  ],
-  Familiar: [
-    "101","102","103","104",
-    "201","202","203","204",
-    "301","302","303","304",
-  ],
-};
-
-// Genera el arreglo inicial: TODAS limpias (como pediste)
-const seedRooms = (): StoreRoom[] => {
-  const out: StoreRoom[] = [];
-  (Object.keys(ROOMS_SOURCE) as RoomType[]).forEach((t) => {
-    ROOMS_SOURCE[t].forEach((n) => {
-      out.push({
-        id: `${t}-${n}`,
-        number: n,
-        type: t,
-        status: "clean",
-        note: undefined,
-        assignedTo: undefined,
-        flags: {},
-      });
-    });
-  });
-  return out;
-};
 
 /* ─────────── Util: borde suave desde HEX ─────────── */
 const soft = (hex: string, alpha = 0.25) => {
@@ -305,12 +260,10 @@ export default function Habitaciones() {
   const setPrimaryStatus = useRoomsStore((s) => s.setPrimaryStatus);
   const applyStatusKeyStore = useRoomsStore((s) => s.applyStatusKey);
 
-  // al montar, solo si aún no hay rooms en el store
-React.useEffect(() => {
-  if (rooms.length === 0) {
-    initRooms(seedRooms()); // ✅ ahora recibe el arreglo inicial
-  }
-}, []);
+  // Al montar: inicializa todas LIMPIAS (una sola vez)
+  React.useEffect(() => {
+    if (rooms.length === 0) initRooms();
+  }, [rooms.length, initRooms]);
 
   // Filtros locales
   const [query, setQuery] = React.useState("");
@@ -361,7 +314,7 @@ React.useEffect(() => {
   // helpers → ahora delegan al store
   const upsertRoom = (data: { number: string; type: RoomType; note?: string }) => {
     if (editing) {
-     updateRoom(editing.id, { number: data.number, type: data.type, note: data.note });
+      updateRoom(editing.id, { number: data.number, type: data.type, note: data.note });
       setEditing(undefined);
     } else {
       addRoom({ number: data.number, type: data.type, note: data.note });
@@ -426,6 +379,11 @@ React.useEffect(() => {
   const groups: { key: RoomType; rooms: Room[] }[] = (["Sencilla", "Doble", "Triple", "Familiar"] as RoomType[]).map(
     (t) => ({ key: t, rooms: filtered.filter((r) => r.type === t) })
   );
+
+  // 👇 NUEVO: limitar grupos visibles según selección (solo ese bloque; con "Todos" se muestran todos)
+  const visibleGroups = typeFilter === "Todos"
+    ? groups
+    : groups.filter((g) => g.key === typeFilter);
 
   return (
     <View style={styles.root}>
@@ -581,7 +539,7 @@ React.useEffect(() => {
 
       {/* Listado por grupos */}
       <ScrollView>
-        {groups.map(({ key, rooms }) => (
+        {visibleGroups.map(({ key, rooms }) => (
           <View key={key} style={{ marginBottom: 16 }}>
             <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 10 }}>
               <View style={{ width: 6, height: 24, backgroundColor: TYPE_COLORS[key], borderRadius: 999, marginRight: 8 }} />
